@@ -22,6 +22,8 @@ require public_path()."/FBcomments/fbSDK.php";
   <link href="{{ generateAsset('public/css/normalize.css') }}" rel="stylesheet" />
   <!-- ICON FONTS -->
   <link href="{{ generateAsset('public/css/font-awesome.min.css') }}" rel="stylesheet" />
+<!-- 
+      <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet"> -->
   <!-- FULL SLIDER -->
   <link href="{{ generateAsset('public/css/full-slider.css') }}" rel="stylesheet" />
   <!-- Custom CSS -->
@@ -36,23 +38,21 @@ require public_path()."/FBcomments/fbSDK.php";
   <link rel="stylesheet" type="text/css" href="{{ generateUrl('/public') }}/css/component.css" />
   <link href="{{ generateUrl('/public') }}/css/animate.css" rel="stylesheet">
   <script src="{{ generateUrl('/public') }}/js/modernizr.custom.js"></script>
+
 </head>
 
 <body>
   <header id="header">
     <nav class="header-nav">
-      <div class="social-icons">
-        <a href="https://www.facebook.com/saigon.home.1" target="new"><img src="{{ generateUrl('/public') }}/images/socials/facebook.png" /></a>
-        <a href="https://plus.google.com/114166198988456104322" target="new"><img src="{{ generateUrl('/public') }}/images/socials/youtube.png" /></a>
-        <a href="https://plus.google.com/114166198988456104322" target="new"><img src="{{ generateUrl('/public') }}/images/socials/google-plus.png" /></a>
-      </div>
-      <div class="hotline">
-        <i class="fa fa-phone" aria-hidden="true"></i> 0909 28 29 22 | <i class="fa fa-envelope" aria-hidden="true"></i> info@sghome.vn
-      </div>
       <div class="language-flag">
         <a href="#"><img src="{{ generateUrl('/public') }}/images/flags/vi.png" id="viLanguage" /></a>
         <a href="#"><img src="{{ generateUrl('/public') }}/images/flags/en.png" id="enLanguage" /></a>
-        </li>
+        @if(!session()->has('usernamelogin'))
+        <a href="login" type="button" class="btn btn-success btn-sm">Login</a>
+        <a href="register" type="button" class="btn btn-primary btn-sm">Register</a>
+        @else
+        <a href="logout" type="button" class="btn btn-danger btn-sm">Logout</a>
+        @endif
       </div>
       <ul class="navbar-ul">
         <li class="navbar-li">
@@ -176,11 +176,6 @@ require public_path()."/FBcomments/fbSDK.php";
           </ul>
         </li>
         <li class="navbar-li">
-          <a href="{{ siteURL }}/commercial">
-            {{config(appLang.'.strCommercial')}}
-          </a>
-        </li>
-        <li class="navbar-li">
           <a href="{{ siteURL }}/show-news/all">
             {{config(appLang.'.strNews')}}
           </a>
@@ -212,17 +207,6 @@ require public_path()."/FBcomments/fbSDK.php";
               </a>
             </li>
           </ul>
-        </li>
-        <li class="navbar-li">
-          <a href="{{ siteURL }}/about-us">
-            <?php
-                if (appLang != '_vi') {
-                  echo "About Us";
-                } else {
-                  echo "Về Chúng Tôi";
-                }
-                ?>
-          </a>
         </li>
       </ul>
 
@@ -413,9 +397,7 @@ require public_path()."/FBcomments/fbSDK.php";
         <img src="{{ generateUrl('/public') }}/images/logo_sghome.png" />
       </a>
     </div>
-    <div class="hotline-2">
-      <i class="fa fa-phone" aria-hidden="true"></i> 0909 28 29 22 | <i class="fa fa-envelope" aria-hidden="true"></i> info@sghome.vn
-    </div>
+    
     @yield('search')
   </header>
   <div class="content">
@@ -431,8 +413,8 @@ require public_path()."/FBcomments/fbSDK.php";
               if (appLang == '_vi') {
               ?>
                 <div class="col-md-6">
-                  <h2>Công ty TNHH Môi Giới BĐS Saigon Home</h2>
-                  <p>Saigon Home cung cấp những dịch vụ sau:
+                  <h2>Công ty TNHH Môi Giới BĐS US Home</h2>
+                  <p>US Home cung cấp những dịch vụ sau:
                     <br /> - Dịch vụ môi giới Bán và Cho Thuê Căn Hộ/ Nhà Ở
                     <br /> - Văn phòng – Mặt bằng bán lẻ cho thuê
                     <br /> - Kho Xưởng và Đất bán hoặc cho thuê
@@ -454,24 +436,14 @@ require public_path()."/FBcomments/fbSDK.php";
                 } else {
                 ?>
                 <div class="col-md-6">
-                  <h2>About Saigon Home Company Ltd</h2>
-                  <p>Saigon Home provides the excellent real estate services, included:
+                  <h2>About US Home Company Ltd</h2>
+                  <p>US Home provides the excellent real estate services, included:
                     <br /> - Residential Sales – Buy - Leasing
                     <br /> - Retail – Office Leasing
                     <br /> - Factory/ Land for rent & for sale
                     <br /> - Oversea Residential Project
                     <br /> - Property Management
                     <br /> - Set up a Brand New Boutique Serviced Apartment Building</p>
-                </div>
-                <div class="col-md-6">
-                  <h2>Contact</h2>
-                  <p>Head office: 
-                    <br />Level 1, Hoa Lam Building
-                    <br />No. 2 Thi Sach Street, Ben Nghe Ward, District 1, Ho Chi Minh City, VN
-                    <br />Branch Office: 
-                    <br />58A Street No. 47, Thao Dien Ward, District 2, Ho Chi Minh City, VN
-                    <br />Tel: (+84) 8 6281 9241 - 6281 8485 | Hotline: (+84) 909 28 29 22
-                    <br />Email: info@sghome.vn | Website: www.sghome.vn</p>
                 </div>
                 <?php
                 }
@@ -501,7 +473,6 @@ require public_path()."/FBcomments/fbSDK.php";
   <!-- Custom script -->
   <script src="{{ generateAsset('public/js/script.js') }}">
   </script>
-
   <!-- Date picker -->
   <script src="{{ generateUrl('/public') }}/js/bootstrap-datepicker.js"></script>
   <script src="{{ generateUrl('/public') }}/js/jquery.dlmenu.js"></script>
@@ -546,6 +517,13 @@ var _validFileExtensions = ["jpg", "jpeg", "bmp", "gif", "png"];
         }
       }
     });
+    $('#data_1 .input-group.date').datepicker({
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true
+            });
 </script>
 @yield('extend-script')
 </body>

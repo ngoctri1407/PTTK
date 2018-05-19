@@ -7,8 +7,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Account;
 use Session;
+use App\Booking;
 class AdminController extends Controller
 {
+    public function getListBooking(Request $request) {
+    $query = Booking::Paginate(12);
+    return view('admin.booking')->with('bookingList',$query);
+  }
+
     public function index()
     {
         if(Session::has('usernamelogin'))

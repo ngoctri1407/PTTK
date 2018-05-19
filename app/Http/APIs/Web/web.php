@@ -30,11 +30,21 @@ Route::get('/news/detail/{name}/{id}', 'NewsController@newsDetail');
 
 Route::get('/show-news/{category}', 'NewsController@showNews');
 
-Route::get('/commercial', 'NewsController@showCommercial');
+Route::get('/login', 'HomeController@login');
 
-Route::get('/about-us', 'AboutController@showAbout');
+Route::post('/login', 'HomeController@login');
+
+Route::get('/register', 'HomeController@register');
+
+Route::post('/register', 'HomeController@register');
+
+Route::get('/logout', 'HomeController@logout');
+
+Route::post('/booking', 'PropertyController@createBooking');
 
 // admin
+
+Route::get('/admin/booking', 'Admin\AdminController@getListBooking');
 
 Route::get('/admin', 'Admin\AdminController@index');
 
@@ -129,10 +139,6 @@ Route::post('/admin/hot/add','Admin\HotPropertiesController@add');
 Route::post('/admin/hot/remove','Admin\HotPropertiesController@remove');
 
 Route::post('/admin/realestate/search','Admin\DetailRealEstateController@search');
-
-Route::get('/admin/about','Admin\AboutController@index');
-
-Route::post('/admin/about/manage','Admin\AboutController@manage');
 
 Route::post('/admin/property/select','Admin\DetailRealEstateController@select');
 

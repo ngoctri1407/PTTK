@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Booking;
+use Redirect;
 
 class PropertyController extends Controller
 {
@@ -125,5 +127,29 @@ class PropertyController extends Controller
       ->with('lstImage', $lstImage)
       ->with('lstpricetype', $lstpricetype)
       ->with('realEstateCode', $realEstateCode);
+  }
+  public function createBooking(Request $request)
+  {
+      $booking = new Booking();
+      if (!empty($request->name)) {
+        $booking->name = $request->name;
+      }
+      if (!empty($request->phone)) {
+        $booking->phone = $request->phone;
+      }
+      if (!empty($request->email)) {
+        $booking->email = $request->email;
+      }
+      if (!empty($request->time)) {
+        $booking->time = $request->time;
+      }
+      if (!empty($request->property_id)) {
+        $booking->property_id = $request->property_id;
+      }
+      $booking->status = 'new';
+      
+      $booking->save();
+      $status = "Booking success";
+      return Redirect::back()->with('message','Booking Successful !');
   }
 }

@@ -9,6 +9,8 @@ use App\Project;
 use App\ProjectImages;
 use App\RealEstate;
 use App\RealEstateImages;
+use Illuminate\Http\Request;
+use Session;
 
 include 'Admin/utils.php';
 
@@ -133,4 +135,65 @@ class HomeController extends Controller
       createThumbnail($fileExtension, $file_path . $name, $thumb_path . $name);
     }
   }
+
+  public function login(Request $request)
+    {
+      if($request->isMethod('post')) {
+        $account = \App\User::where('email','=',$request->email)->where('password','=',MD5($request->password))->get();
+        if($account->count() == 0)
+        {
+            echo "invalid";
+            $error = "Email or Password is incorrect";
+            return view("login")->with('error',$error);
+        }
+        else
+        {
+            Session::put('usernamelogin',$account->lists('username')[0]);
+            return redirect('/');
+        }
+      }
+      else {
+        return view("login");
+      }
+    }
+    public function logout(Request $request)
+    {
+        $request->session()->forget('usernamelogin');
+        return redirect('/');
+    }
+    public function register(Request $request)
+  {
+    if ($request->isMethod('get')) {
+      $user = Session::get('usernamelogin');
+      if ($user != null) {
+        return redirect('/');
+      } else {
+        return view("register");
+      }
+    }
+
+    // check existed data
+    if ($request->password != $request->rePassword) {
+      $error = "Mật khẩu chưa khớp.";
+      return view("register")->with('error', $error)->with('request', $request);
+    }
+    $check = \App\User::where('email', '=', $request->email)->first();
+    if ($check != null) {
+      $error = "Email này đã được đăng ký.";
+      return view("register")->with('error', $error)->with('request', $request);
+    }
+
+    // insert user
+    $user           = new \App\User();
+    $user->password = MD5($request->password);
+    $user->email    = $request->email;
+    $user->name = $request->name;
+    $user->save();
+    // after finish --> login
+    $user = \App\User::where('email', '=', $request->email)->where('password', '=', MD5($request->password))->first();
+    Session::put('usernamelogin', $user);
+    return redirect('/');
+  }
+
+
 }

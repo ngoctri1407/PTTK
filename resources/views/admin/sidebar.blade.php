@@ -75,8 +75,8 @@
                 class="nav-label">Price</span></a>
         </li>
         <li>
-          <a href="{{ generateUrl('/admin/about') }}"><i class="fa fa-home"></i> <span
-                class="nav-label">About</span></a>
+          <a href="{{ generateUrl('/admin/booking') }}"><i class="fa fa-money"></i> <span
+                class="nav-label">Booking</span></a>
         </li>
         <li>
           <a href="{{ generateUrl('/admin/setting') }}"><i class="fa fa-cog"></i> <span class="nav-label">Setting</span></a>

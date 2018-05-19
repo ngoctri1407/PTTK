@@ -6,6 +6,11 @@
 
 
 @section('main')
+<style type="text/css">
+.booking {
+    width: 100%;
+    margin-top: 10px;
+}</style>
   <section id="main-section">
     <div class="container-fluid detail-header-fluid">
       <div class="row">
@@ -87,6 +92,15 @@
                 </div>
               </div>
               <div class="row property-detail">
+                <div class="col-md-12">
+                  <button type="button" class="btn btn-info booking" data-toggle="modal" data-target="#myModal">Book this</button>
+                </div>
+                @if(isset($message))
+                 <div class="alert alert-success">
+                  <strong>Success!</strong> Booking success.
+                </div>
+                @endif
+                
                 <div class="col-md-6 project-att">
                   <div class="col-md-12 detail-amenities-title">
                     {{config(appLang.'.strPropertyInformation')}}
@@ -453,6 +467,45 @@
           </div>
         </div>
         @include('side-bar')
+      </div>
+    </div>
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Booking form</h4>
+          </div>
+          <div class="modal-body">
+            <form class="m-t" role="form" action="/PTTK/booking" method="post">
+                <div>{{isset($error) ? $error :''}}</div>
+                {!! csrf_field() !!}
+                <input type="text" name="property_id" class="form-control" value="{{$detail->id_key}}" hidden required="">
+                <div class="form-group">
+                    <input type="text" name="name" class="form-control" placeholder="Name" required="">
+                </div>
+                <div class="form-group">
+                    <input type="email" name="email" class="form-control" placeholder="Email" required="">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="phone" class="form-control" placeholder="SDT" required="">
+                </div>
+                <div class="form-group" id="data_1">
+                    <div class="input-group date">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" name="time" class="form-control" value="19/05/2018">
+                    </div>
+                </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary block full-width m-b">Book</button>
+            </form>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
